@@ -50,8 +50,11 @@ All packages should install without errors.
 
 
 then run models to database.
+
 ```Python manage.py check```
+
 ```python manage.py makemigrations```
+
 ```python manage.py migrate```
 
 Then run the python server with the command
