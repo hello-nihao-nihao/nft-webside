@@ -27,7 +27,7 @@ Turtles Nft is built using
 
   ![REACT](https://github.com/S13G/Connecto-API/blob/main/assets/rsz_react.png)
 
-https://github.com/Tosinpeter/Theturtlesnft.git
+
 
 
 
