@@ -1,0 +1,184 @@
+{% extends 'base1.html' %}
+{% load static %}
+{% block body %}
+
+<link rel="stylesheet" href="{% static 'css/show_user.css' %}">
+<html>
+
+<body>
+        <div class="navbar">
+
+        <div class="links">
+           <a href="javascript:history.go(-1)" class="link">back</a>
+        </div>
+
+
+        <div class="links">
+            <a href="{% url 'main_page_already_login' %}" class="link">Home</a>
+            <a href="{% url 'marketplace' %}" class="link">Marketplace</a>
+            <a href="{% url 'to_upload_html' %}" class="link">Upload</a>
+        </div>
+
+        <div class="links">
+            <a href="{% url 'to_user_detail' %}" class="link">{{ username }}</a>
+            <a href="{% url 'logout' %}" class="link">logout</a>
+        </div>
+
+    </div>
+        <div class="heading">
+            <h1>
+                User Profile
+            </h1>
+        </div>
+        <div class="space">
+        <div class="card">
+        <div class="content">
+            <div class="imgBx">
+                <img src="{{ profileimg.url }}" alt="User Avatar">
+            </div>
+            <h2> {{ bio }}<br><span>NFT</h2>
+        </div>
+        <ul class="navigation">
+            <li>
+                <div class="information">
+                    <ion-icon name="person-outline"></ion-icon>
+                    Username: {{ username }}
+                </div>
+            </li>
+            <li>
+                <div class="information">
+                    <ion-icon name="location-outline"></ion-icon>
+                    Location: {{ location }}
+                </div>
+            </li>
+            <li>
+                <div class="information">
+                    <ion-icon name="wallet-outline"></ion-icon>
+                    Balance: {{ money }}
+                </div>
+            </li>
+        </ul>
+        <div class="toggle">
+            <ion-icon name="chevron-down-outline"></ion-icon>
+        </div>
+    </div>
+        </div>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script>
+        const card = document.querySelector('.card');
+        const cardtoggle = document.querySelector('.toggle');
+        cardtoggle.onclick = function () {
+            card.classList.toggle('active');
+
+        }
+
+    </script>
+
+            <div class="heading">
+            <h1>
+                Nft-Marketplace
+            </h1>
+        </div>
+    <div style="display: flex;flex-wrap: wrap;padding-left: 40px;">
+        {% for item in items.item_list %}
+        <div class="shop" id="shop">
+            <div class="members" display="flex">
+                    <div class="member" >
+                        <img src={{ item.image.url }} >
+                        <p class="name" id="name">
+                            {{ item.caption }}
+                        </p>
+                        <p class="detail">
+                            作者:{{ item.author }}
+                        </p>
+
+                        <p class="detail" >
+                            数量:{{ item.quantity }}
+                        </p>
+
+                        <button id="myButton" onclick="showPopup('{{ item.uuid }}','{{item.sales_id}}','{{ item.quantity }}')" class="btn">sale it</button>
+                        <!-- 弹窗代码 -->
+
+                    </div>
+
+            </div>
+    </div>
+    {% endfor %}
+        <div id="myPopup" class="popup">
+                          <div class="popup-content">
+                              <ul>
+                                  <li class="closebtn"><button class="close"  onclick="closePopup()">&times;</button></li>
+
+
+                            <li class="sell"><h3>出售商品</h3></li>
+                            <li>
+                                <label for="price">价格:</label>&nbsp;&nbsp;
+                                <input type="number" id="price" name="price">
+                            </li>
+                            <li>
+                                <label for="quantity">数量:</label>&nbsp;&nbsp;
+                                <input type="number" id="quantity" name="quantity">
+                            </li>
+                            <li class="sellout">
+                                <button id="sellButton">出售</button>
+                            </li>
+                            </ul>
+                          </div>
+                        </div>
+    </div>
+    <script>function showPopup(uuid,sales_id,old_quantity) {
+                var popup = document.getElementById("myPopup");
+                popup.style.display = "block";
+                var sellButton = document.getElementById("sellButton");
+                sellButton.addEventListener("click", function() {
+                var price = document.getElementById("price").value;
+                var quantity = document.getElementById("quantity").value;
+                console.log("Sell item:", uuid, sales_id, price, quantity);
+                if (parseInt(quantity) > parseInt(old_quantity)){
+                    popup.style.display = "none";
+                    const errorPopup = document.createElement("div");
+                    errorPopup.className = "error-popup";
+                    errorPopup.innerHTML = "对不起,出售商品超出数量!";
+                    document.body.appendChild(errorPopup);
+                    setTimeout(function () {
+                      document.body.removeChild(errorPopup);
+                    }, 1000);
+                }
+                else {
+                    // 使用Ajax提交数据
+                    $.ajax({
+                        url: '/sale/',
+                        type: 'POST',
+                        data: {
+                            'uuid': uuid,
+                            'price': price,
+                            'quantity': quantity,
+                            'sales_id': sales_id
+                        },
+                        success: function () {
+                            const errorPopup = document.createElement("div");
+                            errorPopup.className = "error-popup";
+                            errorPopup.innerHTML = "出售成功!";
+                            document.body.appendChild(errorPopup);
+
+                            setTimeout(function () {
+                              document.body.removeChild(errorPopup);
+                              location.reload();
+                            }, 1000);
+                        }
+                    });
+                    popup.style.display = "none";
+                }
+            })
+
+            }</script>
+    <script>function closePopup(){
+                var popup = document.getElementById("myPopup");
+                popup.style.display = "none";
+            }</script>
+
+
+</body>
+
+{% endblock %}

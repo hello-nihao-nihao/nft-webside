@@ -1,0 +1,183 @@
+{% extends 'base1.html' %}
+{% load static %}
+{% block body %}
+<!-- Favicon -->
+<link rel="stylesheet" href="{% static 'css/show_user.css' %}">
+<link rel="shortcut icon" href="https://mb.bootcss.com/assets/favicons/favicon.ico" type="image/x-icon" />
+
+<body>
+
+    <div class="navbar">
+
+        <div class="links">
+           <a href="javascript:history.go(-1)" class="link">back</a>
+        </div>
+
+
+        <div class="links">
+            <a href="{% url 'backstage_already_login' %}" class="link">Home</a>
+            <a href="{% url 'to_User_Management' %}" class="link">用户管理</a>
+            <a href="{% url 'to_Product_Management' %}" class="link">商品管理</a>
+            <a href="{% url 'to_order_management' %}" class="link">订单管理</a>
+        </div>
+
+        <div class="links">
+            <a href="{% url 'to_user_detail' %}" class="link">{{ username }}</a>
+
+        </div>
+
+    </div>
+    <div class="shop0086" style="margin-top: 41px;;margin-left:48px">
+        <div class="members" style="padding: 0 100px";>
+            <div class="member" style="display:flex;justify-content: space-between;height: 100px">
+                <p>xxx</p>
+                <p>xxx</p>
+                <p>xxx</p>
+                <p>xxx</p>
+                <p>xxx</p>
+                <p>xxx</p>
+                <p>xxx</p>
+                <p>xxx</p>
+            </div>
+        </div>
+    </div>
+    {% for item in item_list %}
+    <div class="shop0086" >
+                <div class="members" style="padding: 0 100px;margin-left:48px">
+                        <div class="member" style="display:flex;justify-content: space-between;height: 200px">
+                            <img src={{ item.image.url }} >
+                            <p class="detail" style="padding-top: 65px">
+                                {{item.uuid}}
+                            </p>
+                            <p class="detail" style="padding-top: 65px;width:100px">
+                                {{item.author}}
+                            </p>
+
+                            <p class="detail" style="padding-top: 65px;width:100px">
+                                {{item.caption}}
+                            </p>
+                            <p class="detail" style="padding-top: 65px">
+                                {{item.created_at}}
+                            </p>
+                            <p class="detail" style="padding-top: 65px">
+                                {{item.quantity}}
+                            </p>
+                            <button class="btn" style="margin-top: 56px;height: 40px ;line-height:10px" onclick="showPopup('{{ item.uuid }}')">修改</button>
+                            <button class="btn" style="margin-top: 56px;height: 40px ;line-height:10px" onclick="showDeletePopup('{{ item.uuid }}')">删除</button>
+                        </div>
+
+
+                </div>
+        </div>
+
+    {% endfor %}
+    <div id="myPopup" class="popup">
+                          <div class="popup-content">
+                              <ul>
+                                  <li class="closebtn"><button class="close"  onclick="closePopup()">&times;</button></li>
+
+
+                            <li class="sell"><h3>修改藏品</h3></li>
+
+                            <li>
+                                <label for="caption">名称:</label>&nbsp;&nbsp;
+                                <input type="" id="caption" name="price">
+                            </li>
+
+                            <li>
+                                <label for="author">作者:</label>&nbsp;&nbsp;
+                                <input type="" id="author" name="quantity">
+                            </li>
+                            <li class="sellout">
+                                <button id="changeButton">修改</button>
+                            </li>
+                            </ul>
+                          </div>
+                        </div>
+
+    <div id="deletePopup" class="popup">
+        <div class="popup-content">
+            <ul>
+                <li class="closebtn"><button class="close"  onclick="closePopup()">&times;</button></li>
+                <li class="sell" style="margin-left: 65px;"><h3>确认删除？</h3></li>
+                <li class="sellout">
+                    <button id="deleteButton" style="margin-left: 83px;">删除</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script>function showPopup(uuid,old_quantity) {
+                var popup = document.getElementById("myPopup");
+                popup.style.display = "block";
+                var changeButton = document.getElementById("changeButton");
+                changeButton.addEventListener("click", function() {
+                var caption = document.getElementById("caption").value;
+                var author = document.getElementById("author").value;
+
+
+                // 使用Ajax提交数据
+                $.ajax({
+                    url: '/change_Product/',
+                    type: 'POST',
+                    data: {
+                        'uuid': uuid,
+                        'caption': caption,
+
+                        'author':author
+
+                    },
+                    success: function () {
+                        const errorPopup = document.createElement("div");
+                        errorPopup.className = "error-popup";
+                        errorPopup.innerHTML = "修改成功!";
+                        document.body.appendChild(errorPopup);
+
+                        setTimeout(function () {
+                          document.body.removeChild(errorPopup);
+                          location.reload();
+                        }, 1000);
+                    }
+                });
+                popup.style.display = "none";
+
+            })
+
+            }</script>
+    <script>function closePopup(){
+                var popup = document.getElementById("myPopup");
+                popup.style.display = "none";
+                var popup1 = document.getElementById("deletePopup");
+                popup1.style.display = "none";
+            }</script>
+    <script>function showDeletePopup(uuid){
+                    var popup = document.getElementById("deletePopup");
+                    popup.style.display = "block";
+                    var delete_botton=document.getElementById("deleteButton");
+                    delete_botton.addEventListener("click", function() {
+                    // 使用Ajax提交数据
+                    $.ajax({
+                        url: '/delete_Product/',
+                        type: 'POST',
+                        data: {
+                            'uuid': uuid,
+                        },
+                        success: function () {
+                            const errorPopup = document.createElement("div");
+                            errorPopup.className = "error-popup";
+                            errorPopup.innerHTML = "删除成功!";
+                            document.body.appendChild(errorPopup);
+
+                            setTimeout(function () {
+                              document.body.removeChild(errorPopup);
+                              location.reload();
+                            }, 1000);
+                        }
+                    });
+                    popup.style.display = "none";
+                })}
+    </script>
+</body>
+
+
+
+{% endblock body %}

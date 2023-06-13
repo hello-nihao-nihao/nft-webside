@@ -1,0 +1,53 @@
+{% extends 'base1.html' %}
+{% load static %}
+{% block body %}
+<link rel="stylesheet" href="{% static 'css/upload.css' %}">
+    <div class="navbar">
+
+        <div class="links">
+           <a href="javascript:history.go(-1)" class="link">back</a>
+        </div>
+
+
+        <div class="links">
+            <a href="{% url 'main_page_already_login' %}" class="link">Home</a>
+            <a href="{% url 'marketplace' %}" class="link">Marketplace</a>
+            <a href="{% url 'to_upload_html' %}" class="link">Upload</a>
+        </div>
+
+        <div class="links">
+            <a href="{% url 'to_user_detail' %}" class="link">{{ username }}</a>
+            <a href="{% url 'logout' %}" class="link">logout</a>
+        </div>
+
+    </div>
+    <form action="{% url 'upload' %}" method="POST" enctype="multipart/form-data">
+        <div class="card">
+            <ul class="thing">
+                <li>
+                    <label>商品名称</label>
+                    &nbsp;&nbsp;<input type="text"  name="Trade_name">
+                </li>
+                <li>
+                    <label>价格</label>
+                    &nbsp;&nbsp;<input type="text"  name="price">
+                </li>
+                <li>
+                    <label>商品</label>
+                    <a href="javascript:;" class="file">选择文件
+                        <input type="file" name="image" id="imageUpload">
+                    </a>
+                </li>
+                <li>
+                    <label>上传数量</label>
+                    &nbsp;&nbsp;<input type="number" id="product-quantity" name="product-quantity" min="1" value="1"
+                        required>
+                </li>
+                <li>
+                    <input type="submit"  value="提交" name="Trade_submit" />
+                </li>
+            </ul>
+        </div>
+    </form>
+
+{% endblock %}

@@ -1,0 +1,240 @@
+{% extends 'base1.html' %}
+{% load static %}
+{% block body %}
+<link rel="stylesheet" href="{% static 'css/market_place_detail.css' %}">
+
+    <script>window.history.replaceState(null, null, window.location.href)</script>
+    <div class="navbar">
+
+        <div class="links">
+           <a href="javascript:history.go(-1)" class="link">back</a>
+        </div>
+
+
+        <div class="links">
+            <a href="{% url 'main_page_already_login' %}" class="link">Home</a>
+            <a href="{% url 'marketplace' %}" class="link">Marketplace</a>
+            <a href="{% url 'to_upload_html' %}" class="link">Upload</a>
+        </div>
+
+        <div class="links">
+            <a href="{% url 'to_user_detail' %}" class="link">{{ username }}</a>
+            <a href="{% url 'logout' %}" class="link">logout</a>
+        </div>
+
+    </div>
+    <div class="heading">
+            <h1>
+                Nft-Marketplace
+            </h1>
+        </div>
+    <div style="display: flex;flex-wrap: wrap;padding-left: 40px;">
+{% for item in item_list %}
+        {% if item.quantity >= 1 %}
+        <div class="shop" id="shop">
+            <div class="members" display="flex">
+                    <div class="member" >
+                        <img src={{ item.image.url }} >
+                        <p class="name">
+                            {{ item.caption }}
+                        </p>
+                        <p class="detail">
+                            价格: {{ item.price }}
+                        </p>
+
+                        <p class="detail">
+                            作者: {{ item.author }}
+                        </p>
+                        <p class="detail">
+                            出售者: {{ item.seller }}
+                        </p>
+                        <p class="detail">
+                            数量: {{ item.quantity }}
+                        </p>
+                        <button id="myButton"  class="btn" onclick="showPop_ups('{{ item.uuid }}','{{item.sales_id}}','{{ item.price }}','{{ item.quantity }}','{{ item.seller }}','{{username}}')">buy it!</button>
+
+
+
+                    </div>
+
+
+            </div>
+    </div>
+        {% endif %}
+    {% endfor %}
+        <!-- 弹窗 -->
+        <div id="popup" class="popup">
+                          <div class="popup-content">
+                            <h2>购买商品</h2>
+                            <p>请输入需要购买的数量：</p>
+                            <input type="number" id="quantityInput"  min="1" value="1" required>
+                            <div class="button-row">
+                              <button id="cancelButton" class="btn">取消</button>
+                              <button id="confirmButton" class="btn" >确定</button>
+                            </div>
+                          </div>
+                        </div>
+    </div>
+    <script>
+        const popup = document.getElementById("popup");
+        const cancelButton = document.getElementById("cancelButton");
+        // const confirmButton = document.getElementById("confirmButton");
+        const quantityInput = document.getElementById("quantityInput");
+
+        // 点击按钮时显示弹窗
+        function showPop_ups(uuid,sales_id,price,old_quantity,seller,username) {
+                if(seller==username){
+                const errorPopup = document.createElement("div");
+                errorPopup.className = "error-popup";
+                errorPopup.innerHTML = "对不起,自己无法购买自己的商品!";
+                document.body.appendChild(errorPopup);
+                setTimeout(function() {
+                  document.body.removeChild(errorPopup);
+                }, 3000);
+            }
+                else {
+                    popup.style.display = "block";
+                    var confirmButton = document.getElementById("confirmButton");
+                    confirmButton.addEventListener("click", function() {
+                    const quantity = parseInt(quantityInput.value);
+                if (quantity > 0) {
+                    if (parseInt(quantity) > parseInt(old_quantity)) {
+                            popup.style.display = "none";
+                            const errorPopup = document.createElement("div");
+                            errorPopup.className = "error-popup";
+                            errorPopup.innerHTML = "购买数量大于商品数量！";
+                            document.body.appendChild(errorPopup);
+                            setTimeout(function() {
+                              document.body.removeChild(errorPopup);
+                            }, 3000);
+                        }else {
+                        // 处理购买逻辑
+                            $.ajax({
+                                url: '/buy_someting/',
+                                type: 'POST',
+                                data: {
+                                    'uuid': uuid,
+                                    'price': price,
+                                    'quantity': quantity,
+                                    'sales_id': sales_id
+                                },
+                                success: function() {
+                                    const errorPopup = document.createElement("div");
+                                    errorPopup.className = "error-popup";
+                                    errorPopup.innerHTML = "购买成功!";
+                                    document.body.appendChild(errorPopup);
+
+                                    setTimeout(function () {
+                                      document.body.removeChild(errorPopup);
+                                      location.reload();
+                                    }, 1000);
+
+                              }
+                            });
+                            console.log("购买了" + quantity + "件商品！");
+                            popup.style.display = "none";
+                        }
+                    }
+
+                else {
+                    const errorPopup = document.createElement("div");
+                    errorPopup.className = "error-popup";
+                    errorPopup.innerHTML = "请输入正确的购买数量！";
+                    document.body.appendChild(errorPopup);
+                    setTimeout(function() {
+                      document.body.removeChild(errorPopup);
+                    }, 3000);
+                }})
+            }
+
+        }
+
+        // 点击取消按钮时关闭弹窗
+        cancelButton.onclick = function() {
+          popup.style.display = "none";
+        };
+
+        // 点击确定按钮时关闭弹窗并处理购买逻辑
+        function showPopup(uuid,sales_id,price,old_quantity) {
+            const quantity = parseInt(quantityInput.value);
+            if (quantity > 0) {
+                if (parseInt(quantity) > parseInt(old_quantity)) {
+                        popup.style.display = "none";
+                        const errorPopup = document.createElement("div");
+                        errorPopup.className = "error-popup";
+                        errorPopup.innerHTML = "购买数量大于商品数量！";
+                        document.body.appendChild(errorPopup);
+                        setTimeout(function() {
+                          document.body.removeChild(errorPopup);
+                        }, 1000);
+                    }else {
+                    // 处理购买逻辑
+                        $.ajax({
+                            url: '/buy_someting/',
+                            type: 'POST',
+                            data: {
+                                'uuid': uuid,
+                                'price': price,
+                                'quantity': quantity,
+                                'sales_id': sales_id
+                            },
+                            success: function() {
+                                const errorPopup = document.createElement("div");
+                                errorPopup.className = "error-popup";
+                                errorPopup.innerHTML = "购买成功!";
+                                document.body.appendChild(errorPopup);
+
+                                setTimeout(function () {
+                                  document.body.removeChild(errorPopup);
+                                  location.reload();
+                                }, 1000);
+
+                          }
+                        });
+                        console.log("购买了" + quantity + "件商品！");
+                        popup.style.display = "none";
+                    }
+                }
+
+            else {
+                const errorPopup = document.createElement("div");
+                errorPopup.className = "error-popup";
+                errorPopup.innerHTML = "请输入正确的购买数量！";
+                document.body.appendChild(errorPopup);
+                setTimeout(function() {
+                  document.body.removeChild(errorPopup);
+                }, 3000);
+            }
+
+        }</script>
+
+<!--    <script>function showPopup(uuid,sales_id,price) {-->
+
+<!--                          var quantityInput = prompt("How many do you want to buy?");-->
+<!--                          if (quantityInput == null) {-->
+
+<!--                            return;  // 如果用户取消了输入，不执行后续的操作-->
+<!--                          }-->
+
+<!--                          // 使用Ajax提交数据-->
+<!--                          $.ajax({-->
+<!--                            url: '/buy_someting/',-->
+<!--                            type: 'POST',-->
+<!--                            data: {-->
+<!--                              'uuid': uuid,-->
+<!--                              'price': price,-->
+<!--                              'quantity': quantityInput,-->
+<!--                              'sales_id':sales_id-->
+<!--                            },-->
+<!--                           beforeSend: function (xhr, settings) {-->
+<!--                                  // 在提交前禁用默认行为-->
+
+<!--                                  event.preventDefault();-->
+<!--                                }-->
+<!--                          });-->
+
+<!--                    }</script>-->
+{% endblock body %}
+
+
+

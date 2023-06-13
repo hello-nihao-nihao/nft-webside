@@ -1,0 +1,45 @@
+{% extends 'base1.html' %}
+{% load static %}
+{% block body %}
+<!DOCTYPE html>
+<html>
+<head>
+        <title>Image Gallery</title>
+</head>
+<body>
+    <div class="heading">
+            <h1>
+                Nft-Marketplace
+            </h1>
+        </div>
+    <div style="display: flex;flex-wrap: wrap;padding-left: 40px;">
+{% for item in item_list %}
+        <div class="shop" id="shop">
+            <div class="members" display="flex">
+
+
+                    <div class="member" >
+                        <img src={{ item.image.url }} alt="">
+                        <p class="name">
+                            价格:{{ item.price }}
+                        </p>
+                        <p class="detail">
+                            标题:{{ item.caption }}
+                        </p>
+                        <p class="detail">
+                            作者:{{ item.user }}
+                        </p>
+                    </div>
+
+
+            </div>
+    </div>
+    {% endfor %}
+    </div>
+
+</body>
+</html>
+{% endblock body %}
+
+
+

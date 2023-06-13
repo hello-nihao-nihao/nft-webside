@@ -1,0 +1,67 @@
+{% extends 'base1.html' %}
+{% load static %}
+{% block body %}
+<link rel="stylesheet" href="{% static 'css/setting.css' %}">
+    <div class="setting">
+        <div>
+            <br>
+            &nbsp &nbsp &nbsp
+            <h3 class="text-xl mb-2"> &nbsp &nbsp &nbsp General</h3>
+            <br>
+            <p></p>
+        </div>
+        <form action="" method="POST" enctype="multipart/form-data">
+        <table width="600" >
+
+                <tr>
+                    <td>
+                        <label for=""> Profile Image</label>
+                    </td>
+                    <td>
+                        <img width="100" height="100" src="{{user_profile.profileimg.url}}"  id="uploadedImage" >
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <a href="javascript:;" class="file">选择文件
+                            <input type="file" name="image" id="imageUpload">
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="about">nickname</label>
+                    </td>
+                    <td>
+                        <textarea id="about" name="bio" rows="3"  class="btn">{{user_profile.bio}}</textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for=""> Location</label>
+                    </td>
+                    <td>
+                        <input type="text" name="location" value="{{user_profile.location}}" class="btn">
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <button type="submit" class="btn"> Save </button>
+                    </td>
+                </tr>
+                <script>const input = document.getElementById('imageUpload');
+                        const img = document.getElementById('uploadedImage');
+                        input.addEventListener('change', () => {
+                          const file = input.files[0];
+                          const reader = new FileReader();
+                          reader.readAsDataURL(file);
+                          reader.onload = () => {
+                            img.src = reader.result;
+                          }
+                        });</script>
+        </table>
+        </form>
+    </div>
+{% endblock %}

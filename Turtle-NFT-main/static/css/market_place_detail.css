@@ -1,0 +1,75 @@
+.shop .member{
+    overflow: hidden;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.176);
+    justify-content: center;
+    text-align: center;
+    padding: 2rem 1rem;
+    height: 500px;
+    position: relative;
+    backdrop-filter: blur(4px);
+    box-shadow: 0 0 3px rgba(255, 255, 255, 0.317);
+}
+input[type="number"] {
+    border: 1px solid #ccc;
+    padding: 2px;
+    font-size: 1.2em;
+    color: #444;
+    width: 200px;
+    margin-top:10px;
+}
+/* 弹窗样式 */
+
+.popup {
+  display: none;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.popup-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  height:200px;
+  width:300px;
+}
+
+.popup-content h2 {
+  margin-top: 0;
+}
+
+.popup-content p {
+  margin-top: 15px;
+}
+
+.button-row {
+  display: flex;
+  justify-content: center;
+  margin-top:10px;
+}
+
+.error-popup {
+  position: fixed;
+  top: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #add8e6;
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+

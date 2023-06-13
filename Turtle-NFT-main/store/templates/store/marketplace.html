@@ -1,0 +1,69 @@
+{% extends 'base1.html' %}
+{% load static %}
+{% block body %}
+<!DOCTYPE html>
+<html>
+
+<body>
+    <div class="navbar">
+
+        <div class="links">
+           <a href="javascript:history.go(-1)" class="link">back</a>
+        </div>
+
+
+        <div class="links">
+            <a href="{% url 'main_page_already_login' %}" class="link">Home</a>
+            <a href="{% url 'marketplace' %}" class="link">Marketplace</a>
+            <a href="{% url 'to_upload_html' %}" class="link">Upload</a>
+        </div>
+
+        <div class="links">
+            <a href="{% url 'to_user_detail' %}" class="link">{{ username }}</a>
+            <a href="{% url 'logout' %}" class="link">logout</a>
+        </div>
+
+    </div>
+    <div class="heading">
+            <h1>
+                Nft-Marketplace
+            </h1>
+        </div>
+    <div style="display: flex;flex-wrap: wrap;padding-left: 40px;">
+{% for item in item_list %}
+        {% if item.quantity >= 1 %}
+        <div class="shop" id="shop">
+            <div class="members" display="flex">
+                    <div class="member" >
+                        <img src={{ item.image.url }} >
+                        <p class="name">
+                            {{ item.caption }}
+                        </p>
+                        <p class="detail">
+                            作者: {{ item.author }}
+                        </p>
+                        <p class="detail">
+                            数量: {{ item.quantity }}
+                        </p>
+
+                        <form method="post" action="{% url 'get_uuid' uuid=item.uuid %}" autocomplete="off">
+
+                          <button type="submit" class="btn" name="buy">goto buy!</button>
+                        </form>
+
+                    </div>
+
+
+            </div>
+
+    </div>
+        {% endif %}
+    {% endfor %}
+    </div>
+
+</body>
+</html>
+{% endblock body %}
+
+
+

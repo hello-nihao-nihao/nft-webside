@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+.card {
+    position: relative;
+    width: 400px;
+    height: 380px;
+    background: #fff;
+    box-shadow: 0 50px 50px rgba(0, 0, 0, 0.2);
+    padding: 40px;
+    overflow: hidden;
+
+}
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 90vh;
+}
+.thing {
+    position: relative;
+    top: 1px;
+    padding: 20px 0;
+}
+.thing li {
+    list-style: none;
+    margin: 15px 0;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    color: #555;
+    font-size: 1.1em;
+    transition: color 0.25s;
+}
+
+
+input[type="text"],
+input[type="number"],
+input[type="submit"] {
+    border: 1px solid #ccc;
+    padding: 2px;
+    font-size: 1.2em;
+    color: #444;
+    width: 200px;
+}
+input[type="submit"]{
+    background: rgb(82,74,74);
+    color: white;
+    padding: 1rem;
+    width: 25%;
+    margin: 1rem;
+    border-radius: 100px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-left:110px;
+}
+    .file {
+        position: relative;
+        display: inline-block;
+        background: #acb5b9;
+        border: 1px solid #c9cfd3;
+        border-radius: 4px;
+        padding: 4px 12px;
+        overflow: hidden;
+        color: #696d6e;
+        text-decoration: none;
+        text-indent: 0;
+        line-height: 20px;
+        margin-left: 1rem;
+    }
+    .file input {
+        position: absolute;
+        font-size: 100px;
+        right: 0;
+        top: 0;
+        opacity: 0;
+    }
+    .file:hover {
+        background: #AADFFD;
+        border-color: #78C3F3;
+        color: #004974;
+        text-decoration: none;
+    }

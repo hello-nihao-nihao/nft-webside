@@ -1,0 +1,102 @@
+{% extends 'base1.html' %}
+{% load static %}
+{% block body %}
+<!-- Favicon -->
+<link rel="stylesheet" href="{% static 'css/show_user.css' %}">
+<link rel="shortcut icon" href="https://mb.bootcss.com/assets/favicons/favicon.ico" type="image/x-icon" />
+
+<body>
+
+    <div class="navbar">
+
+        <div class="links">
+           <a href="javascript:history.go(-1)" class="link">back</a>
+        </div>
+
+
+        <div class="links">
+            <a href="{% url 'backstage_already_login' %}" class="link">Home</a>
+            <a href="{% url 'to_User_Management' %}" class="link">用户管理</a>
+            <a href="{% url 'to_Product_Management' %}" class="link">商品管理</a>
+            <a href="{% url 'to_order_management' %}" class="link">订单管理</a>
+        </div>
+
+        <div class="links">
+            <a href="{% url 'to_user_detail' %}" class="link">{{ username }}</a>
+
+        </div>
+
+    </div>
+    <div class="shop0086" style="margin-top: 41px;;margin-left:48px">
+        <div class="members" style="padding: 0 100px";>
+            <div class="member" style="display:flex;justify-content: space-between;height: 100px">
+                <p>xxx</p>
+                <p>xxx</p>
+                <p>xxx</p>
+                <p>xxx</p>
+                <p>xxx</p>
+                <p>xxx</p>
+                <p>xxx</p>
+                <p>xxx</p>
+            </div>
+        </div>
+    </div>
+    {% for item in sales_item_list %}
+    <div class="shop0086" >
+                <div class="members" style="padding: 0 100px;margin-left:48px">
+                        <div class="member" style="display:flex;justify-content: space-between;height: 200px">
+                            <p class="detail" style="padding-top: 65px;width:100px">
+                                sale
+                            </p>
+                            <p class="detail" style="padding-top: 65px">
+                                {{item.seller}}
+                            </p>
+                            <p class="detail" style="padding-top: 65px;width:100px">
+                                {{item.sale_quantity}}
+                            </p>
+
+                            <p class="detail" style="padding-top: 65px;width:250px">
+                                {{item.sales_date}}
+                            </p>
+                            <p class="detail" style="padding-top: 65px">
+                                {{item.sales_product_id}}
+                            </p>
+
+                        </div>
+
+
+                </div>
+        </div>
+    {% endfor %}
+    {% for item in buys_item_list %}
+    <div class="shop0086" >
+                <div class="members" style="padding: 0 100px;margin-left:48px">
+                        <div class="member" style="display:flex;justify-content: space-between;height: 200px">
+                            <p class="detail" style="padding-top: 65px;width:100px">
+                                buy
+                            </p>
+                            <p class="detail" style="padding-top: 65px">
+                                {{item.buyer}}
+                            </p>
+                            <p class="detail" style="padding-top: 65px;width:100px">
+                                {{item.buy_quantity}}
+                            </p>
+
+                            <p class="detail" style="padding-top: 65px;width:250px">
+                                {{item.purchase_date}}
+                            </p>
+                            <p class="detail" style="padding-top: 65px">
+                                {{item.buys_product_id}}
+                            </p>
+
+                        </div>
+
+
+                </div>
+        </div>
+    {% endfor %}
+</body>
+
+
+
+{% endblock body %}

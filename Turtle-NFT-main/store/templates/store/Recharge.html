@@ -1,0 +1,42 @@
+{% extends 'base1.html' %}
+{% load static %}
+{% block body %}
+<link rel="stylesheet" href="{% static 'css/Recharge.css' %}">
+
+<body>
+    <div class="navbar">
+
+        <div class="links">
+           <a href="javascript:history.go(-1)" class="link">back</a>
+        </div>
+
+
+        <div class="links">
+            <a href="{% url 'main_page_already_login' %}" class="link">Home</a>
+            <a href="{% url 'marketplace' %}" class="link">Marketplace</a>
+            <a href="{% url 'to_upload_html' %}" class="link">Upload</a>
+        </div>
+
+        <div class="links">
+            <a href="{% url 'to_user_detail' %}" class="link">{{ username }}</a>
+            <a href="{% url 'logout' %}" class="link">logout</a>
+        </div>
+
+    </div>
+    <div class="card">
+        <div class="card-content">
+            <h2>充值</h2>
+            <form method="post" action="{% url 'Recharge' %}">
+                <div class="Recharge">
+                    <br><label for="amount">请输入你要充值的金额（元）:</label>
+                    <input type="number" name="amount" id="amount" required>
+                    <div class="button-row">
+                        <button type="submit" class="btn">充值</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+{% endblock %}
