@@ -48,10 +48,14 @@ After virtual environment has been created. Install all packages listed in the r
 
 All packages should install without errors.
 
+
+then run models to database.
+```Python manage.py check```
+```python manage.py makemigrations```
+```python manage.py migrate```
+
 Then run the python server with the command
 
 ```python3 manage.py runserver```
 
-### Preview
 
-![Turtles nft image](https://github.com/S13G/Turtle-NFT/blob/main/assets/Screenshot%20from%202022-10-11%2009-33-15.png)
